@@ -1,12 +1,9 @@
 {
   "name": "realsee-five-plugin-minicompass",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.1.6",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build:product": "vite build && tsc -p ./tsconfig.product.json",
+    "build": "vite build && tsc -p ./tsconfig.product.json",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,13 +17,9 @@
     "@typescript-eslint/parser": "^5.31.0",
     "eslint": "^8.20.0",
     "eslint-config-alloy": "^4.6.2",
-    "postcss": "^8.4.14",
-    "postcss-plugin-px2rem": "^0.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.77.2",
-    "rollup-plugin-multi-input": "^1.3.1",
-    "rollup-plugin-postcss": "^4.0.2",
     "three": "^0.143.0"
   },
   "devDependencies": {
@@ -36,5 +29,34 @@
     "sass": "^1.54.0",
     "typescript": "^4.6.4",
     "vite": "^3.0.0"
-  }
+  },
+  "description": "指南针组件",
+  "main": "./dist/realsee-five-plugin-minicompass.umd.js",
+  "module": "./dist/realsee-five-plugin-minicompass.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/realsee-five-plugin-minicompass.es.js",
+      "require": "./dist/realsee-five-plugin-minicompass.umd.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thirtyai/realsee-five-plugin-minicompass.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "five",
+    "mini",
+    "compass",
+    "plugin"
+  ],
+  "author": "kyleju",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thirtyai/realsee-five-plugin-minicompass/issues"
+  },
+  "homepage": "https://github.com/thirtyai/realsee-five-plugin-minicompass#readme"
 }

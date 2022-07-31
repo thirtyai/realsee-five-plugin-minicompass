@@ -1,7 +1,36 @@
 import { Five, FivePlugin, Pose } from '@realsee/five';
 import * as THREE from 'three';
 import compass from './compass';
-import styles from './style.module.scss';
+
+const styles = `
+.resblockPanel-compass {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .resblockPanel-compass-north {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+  }
+  
+  .resblockPanel-compass-txt {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    font-size: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 12px;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  `;
 
 export interface MiniCompassPluginExportType {
   appendTo: (elementParent: HTMLElement, northRad: number, size?: { width: number; height: number }) => void;
@@ -23,18 +52,26 @@ const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: 
   scene.add(campassMesh);
 
   const wrapper = document.createElement('div');
-  wrapper.setAttribute('class', styles['resblockPanel-compass']);
+  wrapper.setAttribute('class', 'resblockPanel-compass');
   const element = document.createElement('div');
   const labelNorth = document.createElement('div');
-  labelNorth.setAttribute('class', styles['resblockPanel-compass-north']);
+  labelNorth.setAttribute('class', 'resblockPanel-compass-north');
   const labelSpanNorth = document.createElement('span');
-  labelSpanNorth.setAttribute('class', styles['resblockPanel-compass-txt']);
+  labelSpanNorth.setAttribute('class', 'resblockPanel-compass-txt');
   labelSpanNorth.innerText = '北';
   labelNorth.appendChild(labelSpanNorth);
   wrapper.appendChild(element);
   wrapper.appendChild(labelNorth);
   camera.position.y = 6.1;
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+  const initStyles = () => {
+    const __vite_style__ = document.createElement('style');
+    __vite_style__.innerHTML = styles;
+    document.head.appendChild(__vite_style__);
+  };
+
+  initStyles();
 
   const initRendererIfNeeds = () => {
     if (!five.renderer) return;
