@@ -1,6 +1,6 @@
 {
   "name": "realsee-five-plugin-minicompass",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p ./tsconfig.product.json",
@@ -13,10 +13,6 @@
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
-    "eslint": "^8.20.0",
-    "eslint-config-alloy": "^4.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.77.2",
