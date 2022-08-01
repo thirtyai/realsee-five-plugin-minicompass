@@ -1,5 +1,6 @@
 import { Five, FivePlugin, Pose } from '@realsee/five';
 import * as THREE from 'three';
+import { Color } from 'three';
 import compass from './compass';
 
 const styles = `
@@ -32,24 +33,31 @@ const styles = `
   }
   `;
 
+export interface InitColorArgs {
+  northColor: Color | string | number;
+  southColor: Color | string | number;
+  lightColor: Color | string | number;
+}
+
+const defaultInitColorArgs: InitColorArgs = {
+  northColor: 0xff4d4d,
+  southColor: 0xffffff,
+  lightColor: 0xdde3ff,
+};
+
 export interface MiniCompassPluginExportType {
-  appendTo: (elementParent: HTMLElement, northRad: number, size?: { width: number; height: number }) => void;
+  appendTo: (elementParent: HTMLElement, northRad: number, size?: { width: number; height: number }, colorArgs?: InitColorArgs) => void;
 }
 
 const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: Five) => {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(20, 1, 0.1, 1000);
+  let scene: THREE.Scene | undefined = undefined;
+  let camera: THREE.PerspectiveCamera | undefined = undefined;
+  let ambientLight: THREE.AmbientLight | undefined = undefined;
+  let directionalLight: THREE.DirectionalLight | undefined = undefined;
+  let campassMesh: THREE.Object3D | undefined = undefined;
+
   let { width, height } = { width: 0, height: 0 };
   let renderer: THREE.WebGLRenderer | undefined = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-
-  const ambientLight = new THREE.AmbientLight(0xdde3ff, 1);
-  const directionalLight = new THREE.DirectionalLight(0xdde3ff, 1);
-  directionalLight.position.copy(new THREE.Vector3(-1, 1, -1));
-
-  scene.add(ambientLight);
-  scene.add(directionalLight);
-  const campassMesh = compass();
-  scene.add(campassMesh);
 
   const wrapper = document.createElement('div');
   wrapper.setAttribute('class', 'resblockPanel-compass');
@@ -62,16 +70,12 @@ const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: 
   labelNorth.appendChild(labelSpanNorth);
   wrapper.appendChild(element);
   wrapper.appendChild(labelNorth);
-  camera.position.y = 6.1;
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   const initStyles = () => {
-    const __vite_style__ = document.createElement('style');
-    __vite_style__.innerHTML = styles;
-    document.head.appendChild(__vite_style__);
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = styles;
+    document.head.appendChild(styleElement);
   };
-
-  initStyles();
 
   const initRendererIfNeeds = () => {
     if (!five.renderer) return;
@@ -85,7 +89,23 @@ const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: 
     return renderer;
   };
 
-  const appendTo = (elementParent: HTMLElement, northRad: number, size?: { width: number; height: number }) => {
+  const initSceneAndCamera = (colorArgs: InitColorArgs) => {
+    if (scene) return;
+    if (!directionalLight) directionalLight = new THREE.DirectionalLight(colorArgs.lightColor, 1);
+    if (!scene) scene = new THREE.Scene();
+    if (!ambientLight) ambientLight = new THREE.AmbientLight(colorArgs.lightColor, 1);
+    if (!camera) camera = new THREE.PerspectiveCamera(20, 1, 0.1, 1000);
+    if (!campassMesh) campassMesh = compass(colorArgs);
+    directionalLight.position.copy(new THREE.Vector3(-1, 1, -1));
+    scene.add(ambientLight);
+    scene.add(directionalLight);
+    scene.add(campassMesh);
+    camera.position.y = 6.1;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+  };
+
+  const appendTo = (elementParent: HTMLElement, northRad: number, size?: { width: number; height: number }, colorArgs?: InitColorArgs) => {
+    initSceneAndCamera(colorArgs ? colorArgs : defaultInitColorArgs);
     renderer = initRendererIfNeeds();
     if (!renderer) return;
     elementParent.append(wrapper);
@@ -102,8 +122,11 @@ const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: 
   const cameraDirectionUpdate = (obj: { longitude: number; northRad: number }) => {
     renderer = initRendererIfNeeds();
     if (!renderer) return;
-    const rotateY = -obj.longitude + obj.northRad;
+    if (!campassMesh) return;
+    if (!scene) return;
+    if (!camera) return;
 
+    const rotateY = -obj.longitude + obj.northRad;
     campassMesh.rotation.y = rotateY;
     campassMesh.rotation.x = 0;
 
@@ -114,6 +137,7 @@ const MiniCompassPlugin: FivePlugin<void, MiniCompassPluginExportType> = (five: 
     renderer.render(scene, camera);
   };
 
+  initStyles();
   return {
     appendTo,
   };

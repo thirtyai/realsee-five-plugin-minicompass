@@ -1,10 +1,11 @@
 import { ConeGeometry, MeshLambertMaterial, Mesh, Object3D } from 'three';
+import { InitColorArgs } from '.';
 
-const compass = () => {
+const compass = (colorArgs: InitColorArgs) => {
   const container = new Object3D();
   const geometry = new ConeGeometry(0.4, 1, 4);
-  const material1 = new MeshLambertMaterial({ color: 0xff4d4d });
-  const material2 = new MeshLambertMaterial({ color: 0xffffff });
+  const material1 = new MeshLambertMaterial({ color: colorArgs.northColor });
+  const material2 = new MeshLambertMaterial({ color: colorArgs.southColor });
   material1.reflectivity = 1;
   material2.reflectivity = 1;
   const mesh1 = new Mesh(geometry, material1);
