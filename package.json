@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/core": "^7.18.9",
     "@realsee/dnalogel": "2.0.0-alpha.39",
-    "@realsee/five": "5.0.0-alpha.141",
+    "@realsee/five": "5.0.0-alpha.155",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
