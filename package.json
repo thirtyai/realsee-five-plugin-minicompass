@@ -1,6 +1,6 @@
 {
   "name": "realsee-five-plugin-minicompass",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p ./tsconfig.product.json",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/core": "^7.18.9",
     "@realsee/dnalogel": "2.0.0-alpha.39",
-    "@realsee/five": "5.0.0-alpha.155",
+    "@realsee/five": "5.0.0-alpha.188",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
