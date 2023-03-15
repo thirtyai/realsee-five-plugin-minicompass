@@ -1,6 +1,6 @@
 {
   "name": "realsee-five-plugin-minicompass",
-  "version": "0.1.11",
+  "version": "0.1.10",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p ./tsconfig.product.json",
