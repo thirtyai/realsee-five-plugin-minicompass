@@ -1,6 +1,6 @@
 {
   "name": "realsee-five-plugin-minicompass",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p ./tsconfig.product.json",
@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.9",
-    "@realsee/dnalogel": "2.0.0-alpha.39",
-    "@realsee/five": "5.0.0-alpha.188",
+    "@realsee/dnalogel": "2.5.0",
+    "@realsee/five": "latest",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/three": "^0.154.0",
     "@vitejs/plugin-react": "^2.0.0",
     "sass": "^1.54.0",
     "typescript": "^4.6.4",
